@@ -1,3 +1,7 @@
+/**
+ *
+ * @type {string}
+ */
 export const CREATE_POST_SUCCESS = "CREATE_POST_SUCCESS";
 export const CREATE_POST_FAIL = "CREATE_POST_FAIL";
 export const CREATE_POST_FAIL_INAPPROPRIATE = "CREATE_POST_FAIL_INAPPROPRIATE";
