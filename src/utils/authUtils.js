@@ -7,10 +7,7 @@ const isValidToken = (token) => {
     if (!token) {
         return false;
     }
-
     const payload = token.split(".")[1];
-
-
     if (!payload) {
         return false;
     }
