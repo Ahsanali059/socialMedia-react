@@ -23,7 +23,11 @@ API.interceptors.request.use((req) => {
     return req;
 });
 
-
+/**
+ *
+ * @param refreshToken
+ * @returns {(function(*): Promise<void>)|*}
+ */
 export const refreshTokenAction = (refreshToken) => async (dispatch) => {
     try
     {
@@ -33,6 +37,7 @@ export const refreshTokenAction = (refreshToken) => async (dispatch) => {
         const profile = JSON.parse(localStorage.getItem("profile"));
         const payload = response.data;
         localStorage.setItem("profile", JSON.stringify({ ...profile, ...payload }));
+
         dispatch({
             type: "REFRESH_TOKEN_SUCCESS",
             payload: payload,
