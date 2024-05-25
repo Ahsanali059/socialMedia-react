@@ -41,6 +41,5 @@ export const getTitleFromRoute = (path) => {
     } else if (communityRegex.test(path)) {
         return "Community | SocialEcho";
     }
-
     return "SocialEcho";
 };
