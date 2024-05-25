@@ -40,6 +40,8 @@ export const useBannerLoading = (banner)=>{
  * This hook manages a state indicating whether the isModerator value has been updated from its initial state.
  * @param isModerator
  * @returns {boolean}
+ *
+ * see the use case in the bottom
  */
 export const useIsModeratorUpdated = (isModerator) => {
     const [isModeratorUpdated, setIsModeratorUpdated] = useState(false);
@@ -58,4 +60,20 @@ export const useIsModeratorUpdated = (isModerator) => {
  * Purpose:
  * This hook manages the loading state of a banner image. It is used to determine when a banner image has finished loading.
  *
+ *
+ * calling side
+ *
+ * const myComponent = ({baseUrl}) =>
+ * {
+ *    const bannerloading = useBannerLoading(baseUrl)
+ *
+ *    return (
+ *          <div>
+ *              {bannerloading ? <p>Banner Loaded</p> :banner loading...}
+ *              <image src={bannerUrl} alt="Banner">
+ *
+ *
+ *    )
+ *
+ * }
  */
