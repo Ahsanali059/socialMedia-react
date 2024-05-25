@@ -76,4 +76,16 @@ export const useIsModeratorUpdated = (isModerator) => {
  *    )
  *
  * }
+ *
+ * export const useIsModeratorUpdated = (isModerator) => {
+ *     const [isModeratorUpdated, setIsModeratorUpdated] = useState(false);
+ *
+ *     useEffect(() => {
+ *         if (isModerator !== null) {
+ *             setIsModeratorUpdated(true);
+ *         }
+ *     }, [isModerator]);
+ *
+ *     return isModeratorUpdated;
+ * };
  */
