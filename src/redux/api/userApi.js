@@ -33,3 +33,15 @@ export const updateUser = async(id,formData)=>{
     }
 }
 
+export const getPublicUsers=async()=>{
+    try
+    {
+        const {data} = await API.get("/users/public-users");
+        return {error:null,data};
+    }
+    catch (error)
+    {
+        return handleApiError(error);
+    }
+}
+
