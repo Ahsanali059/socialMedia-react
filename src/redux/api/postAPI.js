@@ -74,3 +74,91 @@ export const getComPosts = async (communityId, limit = 10, skip = 0) => {
         return handleApiError(error);
     }
 };
+
+export const deletePost = async (id) => {
+    try {
+        const { data } = await API.delete(`/posts/${id}`);
+        return { error: null, data };
+    } catch (error) {
+        return handleApiError(error);
+    }
+};
+
+export const likePost = async (id) => {
+    try {
+        const { data } = await API.patch(`/posts/${id}/like`);
+        return { error: null, data };
+    } catch (error) {
+        return handleApiError(error);
+    }
+};
+
+export const unlikePost = async (id) => {
+    try {
+        const { data } = await API.patch(`/posts/${id}/unlike`);
+        return { error: null, data };
+    } catch (error) {
+        return handleApiError(error);
+    }
+};
+
+export const addComment = async (id, newComment) => {
+    try {
+        await API.post(`/posts/${id}/comment`, newComment);
+        return { error: null };
+    } catch (error) {
+        if (error.response?.status === 403) {
+            const { type } = error.response.data || {};
+            if (type === "inappropriateContent") {
+                return { error: "inappropriateContent" };
+            }
+        }
+        return handleApiError(error);
+    }
+};
+
+export const savePost = async (id) => {
+    try {
+        const { data } = await API.patch(`/posts/${id}/save`);
+        return { error: null, data };
+    } catch (error) {
+        return handleApiError(error);
+    }
+};
+
+export const unsavePost = async (id) => {
+    try {
+        const { data } = await API.patch(`/posts/${id}/unsave`);
+        return { error: null, data };
+    } catch (error) {
+        return handleApiError(error);
+    }
+};
+
+export const getSavedPosts = async () => {
+    try {
+        const { data } = await API.get(`/posts/saved`);
+        return { error: null, data };
+    } catch (error) {
+        return handleApiError(error);
+    }
+};
+
+export const getPublicPosts = async (publicUserId) => {
+    try {
+        const { data } = await API.get(`/posts/${publicUserId}/userPosts`);
+        return { error: null, data };
+    } catch (error) {
+        return handleApiError(error);
+    }
+};
+
+export const getFollowingUsersPosts = async (communityId) => {
+    try {
+        const { data } = await API.get(`/posts/${communityId}/following`);
+
+        return { error: null, data };
+    } catch (error) {
+        return handleApiError(error);
+    }
+};
