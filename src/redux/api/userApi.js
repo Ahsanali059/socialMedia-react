@@ -62,3 +62,21 @@ export const followUser = async (id) => {
         return handleApiError(error);
     }
 };
+
+export const unfollowUser = async (id) => {
+    try {
+        const { data } = await API.patch(`/users/${id}/unfollow`);
+        return { error: null, data };
+    } catch (error) {
+        return handleApiError(error);
+    }
+};
+
+export const getFollowingUsers = async () => {
+    try {
+        const { data } = await API.get("/users/following");
+        return { error: null, data };
+    } catch (error) {
+        return handleApiError(error);
+    }
+};
