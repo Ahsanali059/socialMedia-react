@@ -3,6 +3,11 @@ import axios from "axios";
 /*
 In feature url comming from env file
  */
+/**
+ * axios.create(config) creates an Axios instance with the specified configuration.
+ * The config object can include properties like baseURL, timeout, headers, etc.
+ * @type {axios.AxiosInstance}
+ */
 const API = axios.create({
     baseURL: "http://localhost:8080",
     headers: {
@@ -11,11 +16,11 @@ const API = axios.create({
 });
 
 /**
- * Interceptors: Axios interceptors allow you to run your code or modify the request or response before the request is sent or after the response is received.
- * This line registers a request interceptor. The function provided will be called before each request is sent.
+ * In Axios, API.interceptors.request.use is used to intercept and modify requests before they are sent. This feature allows you to perform operations like adding authentication tokens, logging, modifying headers, and handling errors in a centralized way for all outgoing requests.
  */
 API.interceptors.request.use((req) => {
     const accessToken = JSON.parse(localStorage.getItem("profile"))?.accessToken;
+
     if (accessToken)
     {
         req.headers.Authorization = `Bearer ${accessToken}`;
@@ -34,6 +39,7 @@ export const refreshTokenAction = (refreshToken) => async (dispatch) => {
         const response = await API.post("/users/refresh-token", {
             refreshToken,
         });
+
         const profile = JSON.parse(localStorage.getItem("profile"));
         const payload = response.data;
         localStorage.setItem("profile", JSON.stringify({ ...profile, ...payload }));

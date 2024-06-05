@@ -31,6 +31,17 @@ const adminAuthInterceptor = (req) => {
     return req;
 };
 
+export const API = axios.create({
+    baseURL:BASE_URL,
+})
+
+export const ADMINAPI = axios.create({
+    baseURL:ADMIN_URL,
+})
+
+
+
+
 
 
 
