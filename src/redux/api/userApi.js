@@ -45,3 +45,20 @@ export const getPublicUsers=async()=>{
     }
 }
 
+export const getPublicUser = async (id) => {
+    try {
+        const { data } = await API.get(`/users/public-users/${id}`);
+        return { error: null, data };
+    } catch (error) {
+        return handleApiError(error);
+    }
+};
+
+export const followUser = async (id) => {
+    try {
+        const { data } = await API.patch(`/users/${id}/follow`);
+        return { error: null, data };
+    } catch (error) {
+        return handleApiError(error);
+    }
+};
