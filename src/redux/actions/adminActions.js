@@ -24,3 +24,24 @@ export const signInAction = (credential)=>async (dispatch)=>{
 
     }
 }
+
+/**
+ *
+ * @returns {(function(*): Promise<void>)|*}
+ */
+export const logoutAction = () => async (dispatch) => {
+    try
+    {
+        localStorage.removeItem("admin");
+        dispatch({
+            type:types.LOGOUT_SUCCESS
+        })
+
+    }catch (error)
+    {
+        console.log(error);
+        console.log("something went wrong in logout action");
+    }
+
+};
+
