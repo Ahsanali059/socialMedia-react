@@ -42,6 +42,59 @@ export const logoutAction = () => async (dispatch) => {
         console.log(error);
         console.log("something went wrong in logout action");
     }
+};
 
+export const getLogsAction = () => async (dispatch) => {
+    try {
+        const { error, data } = await api.getLogs();
+
+        if (error) {
+            throw new Error(error);
+        }
+        dispatch({
+            type: types.GET_LOGS_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: types.GET_LOGS_FAIL,
+            payload: error.message,
+        });
+    }
+};
+
+export const deleteLogsAction = () => async (dispatch) => {
+    try {
+        const { error } = await api.deleteLogs();
+        if (error) {
+            throw new Error(error);
+        }
+        dispatch({
+            type: types.DELETE_LOGS_SUCCESS,
+        });
+    } catch (error) {
+        dispatch({
+            type: types.DELETE_LOGS_FAIL,
+            payload: error.message,
+        });
+    }
+};
+
+export const getServicePreferencesAction=()=> async (dispatch) => {
+    try {
+        const {error, data} = await api.getServicePreferences();
+        if (error) {
+            throw new Error(error);
+        }
+        dispatch({
+            type: types.GET_SERVICE_PREFERENCES_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: types.GET_SERVICE_PREFERENCES_FAIL,
+            payload: error.message,
+        });
+    }
 };
 
