@@ -162,16 +162,6 @@ export const clearPostAction = () => async (dispatch) => {
         },
     });
 };
-
-export const clearPostAction = () => async (dispatch) => {
-    dispatch({
-        type: types.CLEAR_POST,
-        meta: {
-            requiresAuth: true,
-        },
-    });
-};
-
 export const clearPostsAction = () => async (dispatch) => {
     dispatch({
         type: types.CLEAR_POSTS,
