@@ -13,7 +13,6 @@ const isValidToken = (token) => {
     }
 
     //convert payload to Json
-
     const decodedPayload = JSON.parse(window.atob(payload));
     const expiryTime = decodedPayload.exp * 1000;
     const currentTime = Date.now();
