@@ -1,58 +1,29 @@
-import axios from "axios";
+import jwt_decode from "jwt-decode";
+import { refreshTokenAction } from "../redux/actions/refreshTokenAction";
 
-/*
-In feature url comming from env file
- */
-/**
- * axios.create(config) creates an Axios instance with the specified configuration.
- * The config object can include properties like baseURL, timeout, headers, etc.
- * @type {axios.AxiosInstance}
- */
-const API = axios.create({
-    baseURL: "http://localhost:8080",
-    headers: {
-        "Content-Type": "application/json",
-    },
-});
+export const tokenMiddleware = (store) => (next) => async (action) => {
+    if (action.meta && action.meta.requiresAuth) {
+        const state = store.getState();
+        const token = state.auth?.accessToken;
 
-/**
- * In Axios, API.interceptors.request.use is used to intercept and modify requests before they are sent. This feature allows you to perform operations like adding authentication tokens, logging, modifying headers, and handling errors in a centralized way for all outgoing requests.
- */
-API.interceptors.request.use((req) => {
-    const accessToken = JSON.parse(localStorage.getItem("profile"))?.accessToken;
-
-    if (accessToken)
-    {
-        req.headers.Authorization = `Bearer ${accessToken}`;
+        if (token)
+        {
+            const expiresIn = jwt_decode(token).exp * 1000 - Date.now();
+            if (expiresIn < 1800000) {
+                const refreshToken = state.auth.refreshToken;
+                try {
+                    await store.dispatch(refreshTokenAction(refreshToken));
+                    const newToken = store.getState().auth.accessToken;
+                    if (!newToken) {
+                        throw new Error("Access token not found after refresh");
+                    }
+                } catch (error) {
+                    store.dispatch({ type: "LOGOUT" });
+                }
+            }
+        } else {
+            store.dispatch({ type: "LOGOUT" });
+        }
     }
-    return req;
-});
-
-/**
- *
- * @param refreshToken
- * @returns {(function(*): Promise<void>)|*}
- */
-export const refreshTokenAction = (refreshToken) => async (dispatch) => {
-    try
-    {
-        const response = await API.post("/users/refresh-token", {
-            refreshToken,
-        });
-
-        const profile = JSON.parse(localStorage.getItem("profile"));
-        const payload = response.data;
-        localStorage.setItem("profile", JSON.stringify({ ...profile, ...payload }));
-
-        dispatch({
-            type: "REFRESH_TOKEN_SUCCESS",
-            payload: payload,
-        });
-    } catch (error) {
-        localStorage.removeItem("profile");
-        dispatch({
-            type: "REFRESH_TOKEN_FAIL",
-            payload: error.response.data,
-        });
-    }
+    return next(action);
 };
